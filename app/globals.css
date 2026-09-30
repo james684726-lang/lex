@@ -1,0 +1,188 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground); --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground); --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring);
+  --radius-lg: var(--radius); --radius-xl: calc(var(--radius) * 1.5); --radius-2xl: calc(var(--radius) * 2); --radius-full: 9999px;
+}
+
+:root { 
+  color-scheme: light; 
+  --background: #F0EFF1; 
+  --foreground: #010101; 
+  --card: #FFFFFF; 
+  --card-foreground: #010101; 
+  --primary: #182D88; 
+  --primary-foreground: #FFFFFF; 
+  --muted: #E4E3E6; 
+  --muted-foreground: #5C5B60; 
+  --border: color-mix(in oklab, #010101 10%, transparent); 
+  --input: color-mix(in oklab, #010101 14%, transparent); 
+  --ring: var(--primary); 
+  --radius: 0.8rem; 
+}
+
+@layer base { * { @apply border-border; } html { scroll-behavior: smooth; } body { @apply bg-background text-foreground; } ::selection { background: var(--primary); color: var(--primary-foreground); } }
+.grid-pattern { background-image: linear-gradient(to right, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px); background-size: 56px 56px; }
+
+/* ===== 3D & Animation Utilities ===== */
+@layer utilities {
+  .perspective-1200 {
+    perspective: 1200px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .translate-z-30 {
+    transform: translateZ(30px);
+  }
+  .translate-z-20 {
+    transform: translateZ(20px);
+  }
+  .translate-z-15 {
+    transform: translateZ(15px);
+  }
+  .translate-z-10 {
+    transform: translateZ(10px);
+  }
+  .translate-z-5 {
+    transform: translateZ(5px);
+  }
+  .translate-z-0 {
+    transform: translateZ(0);
+  }
+  .-translate-z-5 {
+    transform: translateZ(-5px);
+  }
+
+  /* hover 3D transforms - using group-hover */
+  .group-hover\:translate-z-50 {
+    @apply group-hover:translate-z-30;
+  }
+  .group-hover\:scale-102 {
+    transform: scale(1.02);
+  }
+  .group-hover\:rotate-y-6 {
+    transform: rotateY(6deg) rotateX(4deg) scale(1.02) translateZ(20px);
+  }
+  .group-hover\:rotate-x-4 {
+    /* handled by rotate-y-6 */
+  }
+}
+
+/* ===== Keyframe Animations ===== */
+@keyframes floatGrid {
+  0% { transform: rotateX(2deg) rotateY(-3deg) translateY(-6px); }
+  100% { transform: rotateX(-2deg) rotateY(3deg) translateY(6px); }
+}
+@keyframes cardFloat {
+  0% { transform: translateY(0px) rotateZ(0deg) rotateX(0deg) rotateY(0deg); }
+  100% { transform: translateY(-12px) rotateZ(0.6deg) rotateX(1.2deg) rotateY(1.8deg); }
+}
+@keyframes iconPulse {
+  0% { transform: translateZ(20px) scale(0.95); opacity: 0.8; }
+  100% { transform: translateZ(40px) scale(1.1); opacity: 1; }
+}
+@keyframes orb1 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(40px, -20px) scale(1.05); }
+}
+@keyframes orb2 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-30px, 40px) scale(1.1); }
+  66% { transform: translate(20px, -20px) scale(0.9); }
+  100% { transform: translate(-40px, 20px) scale(1.05); }
+}
+@keyframes orb3 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 30px) scale(1.1); }
+  66% { transform: translate(-30px, -10px) scale(0.9); }
+  100% { transform: translate(20px, -40px) scale(1.05); }
+}
+@keyframes shine {
+  0% { background: radial-gradient(circle at 20% 30%, rgba(24, 45, 136, 0.08) 0%, transparent 60%); }
+  50% { background: radial-gradient(circle at 80% 70%, rgba(52, 195, 240, 0.06) 0%, transparent 60%); }
+  100% { background: radial-gradient(circle at 40% 60%, rgba(24, 45, 136, 0.10) 0%, transparent 60%); }
+}
+
+/* ===== Animation Classes ===== */
+.animate-floatGrid {
+  animation: floatGrid 8s infinite alternate ease-in-out;
+}
+.animate-cardFloat {
+  animation: cardFloat 5s infinite alternate ease-in-out;
+}
+.animate-iconPulse {
+  animation: iconPulse 3s infinite alternate;
+}
+.animate-orb1 {
+  animation: orb1 20s infinite alternate ease-in-out;
+}
+.animate-orb2 {
+  animation: orb2 25s infinite alternate ease-in-out;
+}
+.animate-orb3 {
+  animation: orb3 18s infinite alternate ease-in-out;
+}
+.animate-shine {
+  animation: shine 12s infinite alternate;
+}
+
+/* ===== Card hover 3D effect (non-group fallback) ===== */
+.card-3d-hover {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s ease,
+              border-color 0.3s ease,
+              background 0.3s ease;
+}
+.card-3d-hover:hover {
+  transform: rotateY(6deg) rotateX(4deg) scale(1.02) translateZ(20px);
+  box-shadow: 0 30px 60px -18px #0a1a4a,
+              0 0 0 1px rgba(255,255,255,0.12) inset,
+              0 0 30px rgba(24, 45, 136, 0.25);
+  border-color: rgba(24, 45, 136, 0.25);
+  background: rgba(24, 45, 136, 0.08);
+  backdrop-filter: blur(14px);
+}
+.card-3d-hover:hover .card-icon-3d {
+  transform: translateZ(50px) scale(1.1);
+  filter: drop-shadow(0 0 20px #34C3F0);
+}
+.card-3d-hover:hover .card-title-3d {
+  background: linear-gradient(135deg, #182D88 0%, #34C3F0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Responsive adjustments ===== */
+@layer utilities {
+  @media (max-width: 880px) {
+    .card-grid-mobile {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .card-grid-mobile {
+      grid-template-columns: 1fr;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* ===== Theme-specific orb colors ===== */
+.orb-primary {
+  background: #182D88;
+}
+.orb-secondary {
+  background: #34C3F0;
+}
